@@ -124,11 +124,17 @@
   .nav-tab { flex: 1; background: none; border: none; padding: 13px 8px; font-family: var(--narrow); font-weight: 700; font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-faint); border-bottom: 3px solid transparent; transition: color .15s, border-color .15s; }
   .nav-tab.active { color: var(--ink); border-bottom-color: var(--gold); }
   .nav-tab + .nav-tab { border-left: 1px solid var(--paper-edge); }
+  .to-top { position: fixed; right: 16px; bottom: 18px; z-index: 80; width: 46px; height: 46px; background: var(--ink); color: var(--paper); border: 2px solid var(--ink); box-shadow: 3px 3px 0 rgba(26,26,23,0.22); cursor: pointer; display: flex; align-items: center; justify-content: center; opacity: 0; visibility: hidden; transform: translateY(8px); transition: opacity .2s, transform .2s, visibility .2s; }
+  .to-top.show { opacity: 1; visibility: visible; transform: translateY(0); }
+  .to-top:active { transform: translate(1px,1px); box-shadow: 1px 1px 0 rgba(26,26,23,0.22); }
+  .to-top svg { width: 20px; height: 20px; }
+  @media (prefers-reduced-motion: reduce) { .to-top { transition: opacity .2s, visibility .2s; transform: none; } }
 
   main { max-width: 760px; margin: 0 auto; padding: 20px 16px 60px; }
   .view { display: none; }
   .view.active { display: block; }
   .intro-note { font-family: var(--serif); font-style: italic; font-size: 14px; color: var(--ink-soft); text-align: center; margin-bottom: 24px; padding: 0 12px; }
+  .last-updated { font-family: var(--narrow); font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-faint); text-align: center; margin: -14px 0 18px; }
 
   /* NEXT MATCHES STRIP (header) */
   .next-strip { border-top: 2px solid var(--ink); background: var(--paper); padding: 10px 14px 12px; }
@@ -177,7 +183,16 @@
   .team-cell { display: flex; align-items: center; gap: 9px; }
   .pos-dot { width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 800; flex-shrink: 0; color: #fff; font-family: var(--display); }
   .pos-1 { background: var(--green); } .pos-2 { background: var(--blue); } .pos-3 { background: var(--orange); } .pos-4 { background: rgba(0,0,0,0.28); }
-  .team-flag { font-size: 19px; line-height: 1; flex-shrink: 0; }
+  .team-flag { width: 24px; height: 16px; line-height: 0; flex-shrink: 0; display: inline-flex; }
+  .team-flag .flagsvg, .flagsvg { width: 100%; height: 100%; display: block; border-radius: 2px; }
+  .fx-fl { display: inline-flex; width: 18px; height: 12px; vertical-align: middle; }
+  .rb-fl { display: inline-flex; width: 20px; height: 13px; vertical-align: middle; margin-right: 2px; }
+  .pgt-fl { display: inline-flex; width: 20px; height: 13px; vertical-align: middle; }
+  .stat-fl { display: inline-flex; width: 24px; height: 16px; vertical-align: middle; }
+  .q-pip { display: inline-flex; align-items: center; justify-content: center; font-family: var(--narrow); font-weight: 700; font-size: 8px; letter-spacing: 0.06em; text-transform: uppercase; padding: 1px 4px; border-radius: 2px; margin-left: 6px; vertical-align: middle; }
+  .q-top2 { background: var(--green); color: #fff; }
+  .q-clinch { background: #cfe8d6; color: #1f6b3a; border: 1px solid var(--green); }
+  .q-out { background: rgba(0,0,0,0.10); color: var(--ink-faint); }
   .team-name { font-weight: 700; font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .chevron { margin-left: 4px; opacity: 0.5; font-size: 11px; }
   .pts { font-weight: 800; font-size: 15px; color: #fff; font-family: var(--display); }
@@ -267,9 +282,28 @@
   .ko-grid { display: grid; grid-template-columns: repeat(5, 150px); min-width: 770px; gap: 0 10px; }
   .ko-rh { font-family: var(--narrow); font-weight: 700; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-faint); padding: 6px 0 10px; text-align: center; }
   .ko-col { display: flex; flex-direction: column; justify-content: space-around; }
-  .ko-match { border: 1.5px solid var(--ink); margin: 4px 0; background: var(--paper); }
-  .ko-team { padding: 7px 9px; font-size: 12px; font-weight: 600; border-bottom: 1px solid var(--paper-edge); color: var(--ink-faint); font-style: italic; }
+  .ko-match { border: 1.5px solid var(--ink); margin: 4px 0; background: var(--paper); position: relative; }
+  .ko-mno { position: absolute; top: -7px; left: 4px; background: var(--paper); font-family: var(--narrow); font-size: 8px; font-weight: 700; color: var(--ink-faint); padding: 0 3px; letter-spacing: 0.05em; }
+  .ko-team { padding: 6px 8px; font-size: 12px; font-weight: 600; border-bottom: 1px solid var(--paper-edge); color: var(--ink); display: flex; align-items: center; gap: 6px; }
   .ko-team:last-child { border-bottom: none; }
+  .ko-tbd { color: var(--ink-faint); font-style: italic; font-weight: 500; font-size: 11px; }
+  .ko-fl { display: inline-flex; width: 17px; height: 11px; flex-shrink: 0; }
+  .ko-tn { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .ko-win { background: #eef6f0; font-weight: 800; }
+  .ko-win .ko-tn::after { content: ' ✓'; color: var(--green); font-size: 10px; }
+  .ko-pick { cursor: pointer; }
+  .ko-pick:hover { background: #f3efe2; }
+  .ko-scores { display: flex; align-items: center; justify-content: center; gap: 6px; padding: 3px 0; border-bottom: 1px solid var(--paper-edge); background: rgba(0,0,0,0.02); }
+  .ko-in { width: 26px; height: 22px; text-align: center; border: 1.5px solid var(--ink); background: var(--paper); font-family: var(--display); font-size: 13px; font-weight: 700; padding: 0; }
+  .ko-dash { color: var(--ink-faint); font-weight: 700; }
+  .ko-thirds { border: 1.5px solid var(--ink); background: var(--paper); padding: 10px 12px; margin-bottom: 18px; }
+  .ko-thirds-h { font-family: var(--narrow); font-weight: 700; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-soft); margin-bottom: 8px; }
+  .ko-thirds-row { display: flex; flex-wrap: wrap; gap: 6px; }
+  .ko-third { font-size: 11px; display: inline-flex; align-items: center; gap: 4px; padding: 2px 6px; border: 1px solid var(--paper-edge); border-radius: 2px; }
+  .ko-third .flagsvg { width: 16px; height: 11px; }
+  .ko-third.q { background: #eef6f0; border-color: var(--green); }
+  .ko-third.nq { opacity: 0.55; }
+  .ko-third b { font-family: var(--display); }
 
   @media (max-width: 420px) {
     .standings td, .standings th { font-size: 12px; padding: 9px 4px; }
@@ -388,11 +422,18 @@
 <main>
   <div class="view active" id="view-groups">
     <p class="intro-note">Tap any team to open its poster. Enter scores to bring the tables to life.</p>
+    <div class="last-updated" id="lastUpdated"></div>
     <div id="groups-list"></div>
   </div>
   <div class="view" id="view-knockouts"></div>
   <div class="view" id="view-stats"></div>
 </main>
+
+<button class="to-top" id="toTop" aria-label="Back to top" title="Back to top">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <path d="M12 19V5M5 12l7-7 7 7"/>
+  </svg>
+</button>
 
 <div class="modal-scrim" id="modal">
   <div class="poster-wrap">
@@ -417,6 +458,92 @@ const FLAGS = {
   'Portugal':'🇵🇹','DR Congo':'🇨🇩','Uzbekistan':'🇺🇿','Colombia':'🇨🇴',
   'England':'🏴󠁧󠁢󠁥󠁮󠁧󠁿','Croatia':'🇭🇷','Ghana':'🇬🇭','Panama':'🇵🇦'
 };
+
+// ---- INLINE SVG FLAGS (device-consistent) ----
+// Complete 48-nation flag generator: stylised SVG for simple patterns,
+// coloured code-chip fallback (3-letter code on primary colour) for complex ones.
+const FCODE={'Mexico':'MEX','South Africa':'RSA','South Korea':'KOR','Czechia':'CZE','Canada':'CAN','Bosnia and Herzegovina':'BIH','Qatar':'QAT','Switzerland':'SUI','Brazil':'BRA','Morocco':'MAR','Haiti':'HAI','Scotland':'SCO','United States':'USA','Paraguay':'PAR','Australia':'AUS','Turkiye':'TUR','Germany':'GER','Curacao':'CUW','Ivory Coast':'CIV','Ecuador':'ECU','Netherlands':'NED','Japan':'JPN','Sweden':'SWE','Tunisia':'TUN','Belgium':'BEL','Egypt':'EGY','Iran':'IRN','New Zealand':'NZL','Spain':'ESP','Cabo Verde':'CPV','Saudi Arabia':'KSA','Uruguay':'URU','France':'FRA','Senegal':'SEN','Iraq':'IRQ','Norway':'NOR','Argentina':'ARG','Algeria':'ALG','Austria':'AUT','Jordan':'JOR','Portugal':'POR','DR Congo':'COD','Uzbekistan':'UZB','Colombia':'COL','England':'ENG','Croatia':'CRO','Ghana':'GHA','Panama':'PAN'};
+
+const FLAGSPEC={
+ 'France':['v','#0055A4','#FFFFFF','#EF4135'],'Belgium':['v','#2D2926','#FAE042','#ED2939'],
+ 'Germany':['h','#1A1A1A','#DD0000','#FFCE00'],'Netherlands':['h','#AE1C28','#FFFFFF','#21468B'],
+ 'Egypt':['h','#CE1126','#FFFFFF','#1A1A1A'],'Iraq':['h','#CE1126','#FFFFFF','#1A1A1A'],
+ 'Iran':['h','#239F40','#FFFFFF','#DA0000'],'Colombia':['h3','#FCD116','#003893','#CE1126'],
+ 'Austria':['h','#ED2939','#FFFFFF','#ED2939'],'Argentina':['h','#74ACDF','#FFFFFF','#74ACDF'],
+ 'Netherlands ':['h','#AE1C28','#FFFFFF','#21468B'],
+ 'Japan':['disc','#FFFFFF','#BC002D'],'Switzerland':['cross','#FF0000','#FFFFFF'],
+ 'Canada':['canada','#FF0000','#FFFFFF'],'Spain':['spain','#AA151B','#F1BF00'],
+ 'Senegal':['v3','#00853F','#FDEF42','#E31B23'],'Ivory Coast':['v3','#FF8200','#FFFFFF','#009A44'],
+ 'Portugal':['v2','#006600','#FF0000'],'Peru':['v3','#D91023','#FFFFFF','#D91023'],
+ 'Nigeria':['v3','#008751','#FFFFFF','#008751'],
+ 'Norway':['nordic','#BA0C2F','#FFFFFF','#00205B'],'Sweden':['nordic','#006AA7','#FECC00','#006AA7'],
+ 'Algeria':['algeria','#006233','#FFFFFF','#D21034'],'Tunisia':['disc','#E70013','#FFFFFF'],
+ 'Turkiye':['solid','#E30A17'],'Morocco':['solid','#C1272D'],'Qatar':['solid','#8A1538'],
+ 'Austria ':['h','#ED2939','#FFFFFF','#ED2939'],
+ 'Uruguay':['uruguay','#FFFFFF','#0038A8'],'Paraguay':['h3','#D52B1E','#FFFFFF','#0038A8'],
+ 'Saudi Arabia':['solid','#006C35'],'Mexico':['v3','#006847','#FFFFFF','#CE1126'],
+ 'Ecuador':['h3','#FFDD00','#034EA2','#ED1C24'],'Australia':['solid','#00247D'],
+ 'New Zealand':['solid','#00247D'],'Czechia':['h2','#FFFFFF','#D7141A'],
+ 'Croatia':['h','#FF0000','#FFFFFF','#171796'],'Panama':['quad','#FFFFFF','#005293','#D21034'],
+ 'Ghana':['h3','#CE1126','#FCD116','#006B3F'],'Cabo Verde':['solid','#003893'],
+ 'England':['cross2','#FFFFFF','#CE1124'],'Scotland':['saltire','#0065BF','#FFFFFF'],
+ 'United States':['solid','#3C3B6E'],'Brazil':['solid','#009C3B'],'South Korea':['disc','#FFFFFF','#CD2E3A'],
+ 'South Africa':['solid','#007749'],'Bosnia and Herzegovina':['solid','#002395'],
+ 'Jordan':['h3','#1A1A1A','#FFFFFF','#007A3D'],'DR Congo':['solid','#007FFF'],
+ 'Uzbekistan':['h3','#1EB53A','#FFFFFF','#0099B5'],'Curacao':['solid','#002B7F'],
+};
+
+// custom stylised flags for complex designs
+const FLAGRENDER={
+  "Czechia": "<rect width=\"18\" height=\"6\" fill=\"#FFFFFF\"/><rect y=\"6\" width=\"18\" height=\"6\" fill=\"#D7141A\"/><path d=\"M0 0 L9 6 L0 12 Z\" fill=\"#11457E\"/>",
+  "Sweden": "<rect width=\"18\" height=\"12\" fill=\"#006AA7\"/><rect x=\"5\" width=\"2.2\" height=\"12\" fill=\"#FECC00\"/><rect y=\"4.9\" width=\"18\" height=\"2.2\" fill=\"#FECC00\"/>",
+  "Tunisia": "<rect width=\"18\" height=\"12\" fill=\"#E70013\"/><circle cx=\"9\" cy=\"6\" r=\"3.4\" fill=\"#FFFFFF\"/><circle cx=\"9.5\" cy=\"6\" r=\"2.4\" fill=\"#E70013\"/><circle cx=\"10.4\" cy=\"6\" r=\"1.9\" fill=\"#FFFFFF\"/><path d=\"M9.7 4.7 L10.05 5.75 L11.15 5.75 L10.25 6.4 L10.6 7.45 L9.7 6.8 L8.8 7.45 L9.15 6.4 L8.25 5.75 L9.35 5.75 Z\" fill=\"#E70013\"/>",
+  "Jordan": "<rect width=\"18\" height=\"4\" fill=\"#000000\"/><rect y=\"4\" width=\"18\" height=\"4\" fill=\"#FFFFFF\"/><rect y=\"8\" width=\"18\" height=\"4\" fill=\"#007A3D\"/><path d=\"M0 0 L8 6 L0 12 Z\" fill=\"#CE1126\"/><path d=\"M2.6 6 l0.45 0.32 0.5 -0.28 -0.2 0.54 0.43 0.36 -0.56 0.02 -0.18 0.54 -0.18 -0.54 -0.56 -0.02 0.43 -0.36 -0.2 -0.54 0.5 0.28z\" fill=\"#fff\"/>",
+  "Brazil": "<rect width=\"18\" height=\"12\" fill=\"#009C3B\"/><path d=\"M9 1.2 L16.5 6 L9 10.8 L1.5 6 Z\" fill=\"#FFDF00\"/><circle cx=\"9\" cy=\"6\" r=\"2.6\" fill=\"#002776\"/>",
+  "Morocco": "<rect width=\"18\" height=\"12\" fill=\"#C1272D\"/><path d=\"M 9.00 3.00 L 10.76 8.43 L 6.15 5.07 L 11.85 5.07 L 7.24 8.43 L 9.00 3.00 Z\" fill=\"none\" stroke=\"#006233\" stroke-width=\"0.55\" stroke-linejoin=\"round\"/>",
+  "Haiti": "<rect width=\"18\" height=\"6\" fill=\"#00209F\"/><rect y=\"6\" width=\"18\" height=\"6\" fill=\"#D21034\"/><rect x=\"6.5\" y=\"3.5\" width=\"5\" height=\"5\" fill=\"#fff\"/><rect x=\"8\" y=\"4.6\" width=\"2\" height=\"2.8\" fill=\"#D21034\"/>",
+  "United States": "<rect width=\"18\" height=\"12\" fill=\"#fff\"/><rect y=\"0\" width=\"18\" height=\"1\" fill=\"#B22234\"/><rect y=\"2\" width=\"18\" height=\"1\" fill=\"#B22234\"/><rect y=\"4\" width=\"18\" height=\"1\" fill=\"#B22234\"/><rect y=\"6\" width=\"18\" height=\"1\" fill=\"#B22234\"/><rect y=\"8\" width=\"18\" height=\"1\" fill=\"#B22234\"/><rect y=\"10\" width=\"18\" height=\"1\" fill=\"#B22234\"/><rect width=\"8\" height=\"7\" fill=\"#3C3B6E\"/>",
+  "Australia": "<rect width=\"18\" height=\"12\" fill=\"#00247D\"/><rect width=\"9\" height=\"6\" fill=\"#012169\"/><path d=\"M0 0 L9 6 M9 0 L0 6\" stroke=\"#fff\" stroke-width=\"1.2\"/><path d=\"M4.5 0 V6 M0 3 H9\" stroke=\"#fff\" stroke-width=\"1.6\"/><path d=\"M4.5 0 V6 M0 3 H9\" stroke=\"#E4002B\" stroke-width=\"0.8\"/><circle cx=\"13.5\" cy=\"8.5\" r=\"0.8\" fill=\"#fff\"/><circle cx=\"11\" cy=\"4\" r=\"0.6\" fill=\"#fff\"/><circle cx=\"15.5\" cy=\"4.5\" r=\"0.6\" fill=\"#fff\"/><circle cx=\"14\" cy=\"10.5\" r=\"0.5\" fill=\"#fff\"/>",
+  "New Zealand": "<rect width=\"18\" height=\"12\" fill=\"#00247D\"/><rect width=\"9\" height=\"6\" fill=\"#012169\"/><path d=\"M0 0 L9 6 M9 0 L0 6\" stroke=\"#fff\" stroke-width=\"1.2\"/><path d=\"M4.5 0 V6 M0 3 H9\" stroke=\"#fff\" stroke-width=\"1.6\"/><path d=\"M4.5 0 V6 M0 3 H9\" stroke=\"#CC142B\" stroke-width=\"0.8\"/><circle cx=\"14\" cy=\"3.5\" r=\"0.7\" fill=\"#CC142B\"/><circle cx=\"12.5\" cy=\"7\" r=\"0.7\" fill=\"#CC142B\"/><circle cx=\"15.5\" cy=\"7.5\" r=\"0.7\" fill=\"#CC142B\"/><circle cx=\"14\" cy=\"10\" r=\"0.7\" fill=\"#CC142B\"/>",
+  "Turkiye": "<rect width=\"18\" height=\"12\" fill=\"#E30A17\"/><circle cx=\"7\" cy=\"6\" r=\"3\" fill=\"#fff\"/><circle cx=\"8\" cy=\"6\" r=\"2.4\" fill=\"#E30A17\"/><path d=\"M10.6 6 L11.9 5.6 L11.1 6.7 L11.2 5.3 L11.9 6.4 Z\" fill=\"#fff\"/>",
+  "South Africa": "<rect width=\"18\" height=\"12\" fill=\"#fff\"/><path d=\"M0 0 L7 6 L0 12 Z\" fill=\"#007749\"/><path d=\"M0 2 L5 6 L0 10 Z\" fill=\"#000\"/><rect x=\"0\" y=\"0\" width=\"18\" height=\"3.2\" fill=\"#DE3831\"/><rect x=\"0\" y=\"8.8\" width=\"18\" height=\"3.2\" fill=\"#002395\"/><rect x=\"7\" y=\"4.5\" width=\"11\" height=\"3\" fill=\"#007749\"/><path d=\"M0 0 L2.5 0 L8.5 6 L2.5 12 L0 12 L6.5 6 Z\" fill=\"#FFB915\"/>",
+  "Qatar": "<rect width=\"18\" height=\"12\" fill=\"#8A1538\"/><path d=\"M0 0 H6 L4.5 1.33 L6 2.66 L4.5 4 L6 5.33 L4.5 6.66 L6 8 L4.5 9.33 L6 10.66 L0 12 Z\" fill=\"#fff\" transform=\"translate(0,0)\"/><rect width=\"5\" height=\"12\" fill=\"#fff\"/><path d=\"M5 0 L3.5 1 L5 2 L3.5 3 L5 4 L3.5 5 L5 6 L3.5 7 L5 8 L3.5 9 L5 10 L3.5 11 L5 12 Z\" fill=\"#8A1538\"/>",
+  "Saudi Arabia": "<rect width=\"18\" height=\"12\" fill=\"#006C35\"/><rect x=\"3\" y=\"7.5\" width=\"12\" height=\"1\" fill=\"#fff\"/><rect x=\"3.5\" y=\"4.5\" width=\"11\" height=\"1.6\" rx=\"0.3\" fill=\"#fff\"/>",
+  "Cabo Verde": "<rect width=\"18\" height=\"12\" fill=\"#003893\"/><rect y=\"6\" width=\"18\" height=\"1.4\" fill=\"#fff\"/><rect y=\"7.4\" width=\"18\" height=\"1.2\" fill=\"#CF2027\"/><rect y=\"8.6\" width=\"18\" height=\"1.4\" fill=\"#fff\"/><circle cx=\"6.5\" cy=\"7\" r=\"2.2\" fill=\"none\" stroke=\"#F7D116\" stroke-width=\"0.5\"/>",
+  "Curacao": "<rect width=\"18\" height=\"12\" fill=\"#002B7F\"/><rect y=\"8.5\" width=\"18\" height=\"2\" fill=\"#F9E814\"/><path d=\"M3 3 l0.4 1.1 1.1 0 -0.9 0.7 0.35 1.1 -0.95 -0.7 -0.95 0.7 0.35 -1.1 -0.9 -0.7 1.1 0z\" fill=\"#fff\"/><path d=\"M5 5.5 l0.3 0.8 0.8 0 -0.65 0.5 0.25 0.8 -0.7 -0.5 -0.7 0.5 0.25 -0.8 -0.65 -0.5 0.8 0z\" fill=\"#fff\"/>",
+  "DR Congo": "<rect width=\"18\" height=\"12\" fill=\"#007FFF\"/><path d=\"M0 12 L18 0 L18 2.5 L3.5 12 Z\" fill=\"#F7D618\"/><path d=\"M0 9.5 L14.5 0 L18 0 L0 12 Z\" fill=\"#CE1021\" opacity=\"0.85\"/><path d=\"M2.5 1 l0.6 1.8 1.9 0 -1.5 1.1 0.55 1.8 -1.55 -1.1 -1.55 1.1 0.55 -1.8 -1.5 -1.1 1.9 0z\" fill=\"#F7D618\"/>",
+  "Bosnia and Herzegovina": "<rect width=\"18\" height=\"12\" fill=\"#002395\"/><path d=\"M5 0 L14 0 L5 12 Z\" fill=\"#FECB00\"/><g fill=\"#fff\"><path d=\"M5.5 0.4 l0.3 0.9 0.95 0 -0.77 0.56 0.29 0.9 -0.77 -0.56 -0.77 0.56 0.29 -0.9 -0.77 -0.56 0.95 0z\"/><path d=\"M6.7 1.9 l0.3 0.9 0.95 0 -0.77 0.56 0.29 0.9 -0.77 -0.56 -0.77 0.56 0.29 -0.9 -0.77 -0.56 0.95 0z\"/><path d=\"M7.9 3.4 l0.3 0.9 0.95 0 -0.77 0.56 0.29 0.9 -0.77 -0.56 -0.77 0.56 0.29 -0.9 -0.77 -0.56 0.95 0z\"/><path d=\"M9.1 4.9 l0.3 0.9 0.95 0 -0.77 0.56 0.29 0.9 -0.77 -0.56 -0.77 0.56 0.29 -0.9 -0.77 -0.56 0.95 0z\"/><path d=\"M10.3 6.4 l0.3 0.9 0.95 0 -0.77 0.56 0.29 0.9 -0.77 -0.56 -0.77 0.56 0.29 -0.9 -0.77 -0.56 0.95 0z\"/><path d=\"M11.5 7.9 l0.3 0.9 0.95 0 -0.77 0.56 0.29 0.9 -0.77 -0.56 -0.77 0.56 0.29 -0.9 -0.77 -0.56 0.95 0z\"/><path d=\"M12.7 9.4 l0.3 0.9 0.95 0 -0.77 0.56 0.29 0.9 -0.77 -0.56 -0.77 0.56 0.29 -0.9 -0.77 -0.56 0.95 0z\"/></g>",
+};
+function flag(team){
+  const W=18,H=12,r=1.6;
+  const open=`<svg class="flagsvg" viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid slice">`;
+  const clip=`<clipPath id="fcg"><rect width="${W}" height="${H}" rx="${r}"/></clipPath>`;
+  const border=`<rect x="0.3" y="0.3" width="${W-0.6}" height="${H-0.6}" rx="${r}" fill="none" stroke="rgba(0,0,0,0.22)" stroke-width="0.6"/>`;
+  const wrap=inner=>`${open}<defs>${clip}</defs><g clip-path="url(#fcg)">${inner}</g>${border}</svg>`;
+  if(FLAGRENDER[team]) return wrap(FLAGRENDER[team]);
+  const s=FLAGSPEC[team];
+  if(!s){ const code=FCODE[team]||team.slice(0,3).toUpperCase();
+    return wrap(`<rect width="${W}" height="${H}" fill="#3a4a5a"/><text x="${W/2}" y="${H/2+2.2}" font-family="Arial" font-size="5.4" font-weight="bold" fill="#fff" text-anchor="middle">${code}</text>`); }
+  const t=s[0], c=s.slice(1);
+  if(t==='v'||t==='v3'){ const w=W/3; return wrap(c.map((col,i)=>`<rect x="${i*w}" width="${w+0.5}" height="${H}" fill="${col}"/>`).join('')); }
+  if(t==='v2'){ return wrap(`<rect width="${W*0.4}" height="${H}" fill="${c[0]}"/><rect x="${W*0.4}" width="${W*0.6}" height="${H}" fill="${c[1]}"/>`); }
+  if(t==='h'||t==='h3'){ const h=H/3; return wrap(c.map((col,i)=>`<rect y="${i*h}" width="${W}" height="${h+0.5}" fill="${col}"/>`).join('')); }
+  if(t==='h2'){ return wrap(`<rect width="${W}" height="${H/2}" fill="${c[0]}"/><rect y="${H/2}" width="${W}" height="${H/2}" fill="${c[1]}"/>`); }
+  if(t==='solid'){ const code=FCODE[team]||team.slice(0,3).toUpperCase(); return wrap(`<rect width="${W}" height="${H}" fill="${c[0]}"/><text x="${W/2}" y="${H/2+2.2}" font-family="Arial" font-size="5.4" font-weight="bold" fill="#fff" text-anchor="middle">${code}</text>`); }
+  if(t==='disc'){ return wrap(`<rect width="${W}" height="${H}" fill="${c[0]}"/><circle cx="${W/2}" cy="${H/2}" r="3" fill="${c[1]}"/>`); }
+  if(t==='cross'){ return wrap(`<rect width="${W}" height="${H}" fill="${c[0]}"/><rect x="${W/2-1}" y="2.5" width="2" height="7" fill="${c[1]}"/><rect x="${W/2-3.5}" y="${H/2-1}" width="7" height="2" fill="${c[1]}"/>`); }
+  if(t==='cross2'){ return wrap(`<rect width="${W}" height="${H}" fill="${c[0]}"/><rect x="${W/2-1}" width="2" height="${H}" fill="${c[1]}"/><rect y="${H/2-1}" width="${W}" height="2" fill="${c[1]}"/>`); }
+  if(t==='saltire'){ return wrap(`<rect width="${W}" height="${H}" fill="${c[0]}"/><path d="M0 0 L${W} ${H} M${W} 0 L0 ${H}" stroke="${c[1]}" stroke-width="2"/>`); }
+  if(t==='canada'){ return wrap(`<rect width="${W}" height="${H}" fill="#FFFFFF"/><rect width="${W*0.25}" height="${H}" fill="${c[0]}"/><rect x="${W*0.75}" width="${W*0.25}" height="${H}" fill="${c[0]}"/><path d="M9 3.2 l0.5 1.5 1.5 -0.4 -0.9 1.3 1.3 0.7 -1.5 0.3 0.2 1.5 -1.1 -0.9 -1.1 0.9 0.2 -1.5 -1.5 -0.3 1.3 -0.7 -0.9 -1.3 1.5 0.4z" fill="${c[0]}"/>`); }
+  if(t==='spain'){ return wrap(`<rect width="${W}" height="${H}" fill="${c[1]}"/><rect width="${W}" height="${H*0.25}" fill="${c[0]}"/><rect y="${H*0.75}" width="${W}" height="${H*0.25}" fill="${c[0]}"/>`); }
+  if(t==='nordic'){ return wrap(`<rect width="${W}" height="${H}" fill="${c[0]}"/><rect x="5" width="2" height="${H}" fill="${c[1]}"/><rect y="${H/2-1}" width="${W}" height="2" fill="${c[1]}"/><rect x="5.5" width="1" height="${H}" fill="${c[2]}"/><rect y="${H/2-0.5}" width="${W}" height="1" fill="${c[2]}"/>`); }
+  if(t==='algeria'){ return wrap(`<rect width="${W/2}" height="${H}" fill="${c[0]}"/><rect x="${W/2}" width="${W/2}" height="${H}" fill="${c[1]}"/><path d="M11 6 a2.6 2.6 0 1 1 -0.01 -0.01 M11.4 6 a2.1 2.1 0 1 0 0 0.01z" fill="${c[2]}"/>`); }
+  if(t==='uruguay'){ return wrap(`<rect width="${W}" height="${H}" fill="#fff"/>${[1,3,5,7].map(i=>`<rect y="${i*H/9}" width="${W}" height="${H/9}" fill="${c[1]}"/>`).join('')}<rect width="${W*0.4}" height="${H*0.55}" fill="#fff"/><circle cx="${W*0.2}" cy="${H*0.27}" r="1.6" fill="#FCD116"/>`); }
+  if(t==='quad'){ return wrap(`<rect width="${W}" height="${H}" fill="#fff"/><rect x="${W/2}" width="${W/2}" height="${H/2}" fill="${c[2]}"/><rect y="${H/2}" width="${W/2}" height="${H/2}" fill="${c[1]}"/>`); }
+  const code=FCODE[team]||team.slice(0,3).toUpperCase();
+  return wrap(`<rect width="${W}" height="${H}" fill="#3a4a5a"/><text x="${W/2}" y="${H/2+2.2}" font-family="Arial" font-size="5.4" font-weight="bold" fill="#fff" text-anchor="middle">${code}</text>`);
+}
+
 
 const GROUPS = [
   { id:'A', teams:['Mexico','South Africa','South Korea','Czechia'], matches:[
@@ -472,6 +599,21 @@ const GROUPS = [
 let state = {};
 try { const s = localStorage.getItem('wc2026'); if (s) state = JSON.parse(s); } catch(e) {}
 function save() { try { localStorage.setItem('wc2026', JSON.stringify(state)); } catch(e) {} }
+function touch(){ state.__updated = Date.now(); save(); renderLastUpdated(); }
+function renderLastUpdated(){
+  const el=document.getElementById('lastUpdated'); if(!el) return;
+  const ts=state.__updated;
+  if(!ts){ el.textContent=''; return; }
+  const d=new Date(ts);
+  const now=Date.now(); const diff=Math.floor((now-ts)/1000);
+  let rel;
+  if(diff<60) rel='just now';
+  else if(diff<3600) rel=Math.floor(diff/60)+' min ago';
+  else if(diff<86400) rel=Math.floor(diff/3600)+'h ago';
+  else rel=d.toLocaleDateString('en-GB',{day:'numeric',month:'short'});
+  const time=d.toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'});
+  el.textContent=`Last updated ${rel} · ${time}`;
+}
 function getScore(id) { return state[id] || {h:null,a:null}; }
 function groupOf(team) { return GROUPS.find(g => g.teams.includes(team)); }
 
@@ -492,6 +634,37 @@ function standings(group) {
 }
 
 function posClass(i){ return ['pos-1','pos-2','pos-3','pos-4'][i]; }
+// per-team live qualification status within a group
+function qualStatus(group){
+  const cur={}; group.teams.forEach(t=>cur[t]={pts:0,rem:0});
+  let played=0;
+  group.matches.forEach(m=>{const s=getScore(m.id);
+    if(s.h==null||s.a==null){cur[m.home].rem++;cur[m.away].rem++;return;}
+    played++; const H=cur[m.home],A=cur[m.away];
+    if(s.h>s.a)H.pts+=3;else if(s.h<s.a)A.pts+=3;else{H.pts++;A.pts++;}});
+  const complete=group.matches.every(m=>{const s=getScore(m.id);return s.h!=null&&s.a!=null;});
+  const status={};
+  if(complete){ const s=standings(group); s.forEach((row,i)=>status[row.team]=i<2?'top2':i===2?'third':'out'); return status; }
+  if(played===0){ group.teams.forEach(t=>status[t]='live'); return status; }
+  group.teams.forEach(t=>{
+    const maxT=cur[t].pts+cur[t].rem*3;
+    let guaranteedAbove=0, canExceed=0;
+    group.teams.forEach(o=>{ if(o===t)return;
+      if(cur[o].pts>maxT) guaranteedAbove++;
+      const maxO=cur[o].pts+cur[o].rem*3; if(maxO>cur[t].pts) canExceed++; });
+    if(guaranteedAbove>=3) status[t]='out';
+    else if(canExceed<=1) status[t]='clinch';
+    else status[t]='live';
+  });
+  return status;
+}
+function qualPip(st){
+  if(st==='top2') return '<span class="q-pip q-top2">Through</span>';
+  if(st==='clinch') return '<span class="q-pip q-clinch">Top 2</span>';
+  if(st==='third') return '<span class="q-pip q-clinch">3rd</span>';
+  if(st==='out') return '<span class="q-pip q-out">Out</span>';
+  return '';
+}
 function formPips(form){
   const last3 = form.slice(-3); let h='';
   for(let i=0;i<3;i++){ const f=last3[i];
@@ -504,13 +677,14 @@ function formPips(form){
 function renderGroups(){
   const wrap = document.getElementById('groups-list');
   wrap.innerHTML = GROUPS.map(g => {
+    const qs = qualStatus(g);
     const rows = standings(g).map((s,i)=>{
       const gdTxt = (s.gd>0?'+':'') + s.gd;
       return `<tr onclick="openTeam('${s.team.replace(/'/g,"\\'")}')">
         <td><div class="team-cell">
           <div class="pos-dot ${posClass(i)}">${i+1}</div>
-          <span class="team-flag">${FLAGS[s.team]||'🏳'}</span>
-          <span class="team-name">${s.team}</span>
+          <span class="team-flag">${flag(s.team)}</span>
+          <span class="team-name">${s.team}</span>${qualPip(qs[s.team])}
           <span class="chevron">›</span>
         </div></td>
         <td>${s.p}</td><td>${s.w}</td><td>${s.d}</td><td>${s.l}</td>
@@ -525,7 +699,7 @@ function renderGroups(){
       return `<div class="fx-row">
         <div class="fx-date">${m.date}${m.time?`<span class="fx-time">${m.time}</span>`:''}</div>
         <div class="fx-mid">
-          <span class="fx-team h">${FLAGS[m.home]||''} ${m.home}</span>
+          <span class="fx-team h">${m.home} <span class="fx-fl">${flag(m.home)}</span></span>
           <div class="fx-scores">
             <input class="fx-input${played?' played':''}" type="number" min="0" max="30" inputmode="numeric"
               value="${played?sc.h:''}" placeholder="·" data-m="${m.id}" data-s="h" onchange="onScore(this)">
@@ -533,7 +707,7 @@ function renderGroups(){
             <input class="fx-input${played?' played':''}" type="number" min="0" max="30" inputmode="numeric"
               value="${played?sc.a:''}" placeholder="·" data-m="${m.id}" data-s="a" onchange="onScore(this)">
           </div>
-          <span class="fx-team a">${m.away} ${FLAGS[m.away]||''}</span>
+          <span class="fx-team a"><span class="fx-fl">${flag(m.away)}</span> ${m.away}</span>
         </div>
       </div>`;
     }).join('');
@@ -574,9 +748,9 @@ function renderGroups(){
 function onScore(input){
   const id=input.dataset.m, side=input.dataset.s;
   const val=input.value===''?null:Math.max(0,Math.min(30,parseInt(input.value,10)||0));
-  const sc=getScore(id); sc[side]=val; state[id]=sc; save();
-  if(sc.h!==null&&sc.a!==null){ renderGroups(); renderNext(); if(currentView==='stats')renderStats(); }
-  else { renderNext(); }
+  const sc=getScore(id); sc[side]=val; state[id]=sc; save(); touch();
+  if(sc.h!==null&&sc.a!==null){ renderGroups(); renderNext(); if(currentView==='stats')renderStats(); if(currentView==='knockouts')renderKnockouts(); }
+  else { renderNext(); if(currentView==='knockouts')renderKnockouts(); }
 }
 
 function openTeam(team){
@@ -618,7 +792,7 @@ function openTeam(team){
     let res='', scoreTxt='';
     if(played){ scoreTxt=`${us}–${them}`; res = us>them?'W':(us===them?'D':'L'); }
     return `<div class="rb-row">
-      <span class="rb-opp">${FLAGS[opp]||''} ${opp}</span>
+      <span class="rb-opp"><span class="rb-fl">${flag(opp)}</span> ${opp}</span>
       <span class="rb-score">${played?scoreTxt:'<span style="opacity:.5;font-size:12px;font-weight:600">'+m.date+'</span>'}</span>
       <span class="rb-res">${res}</span>
     </div>`;
@@ -652,7 +826,7 @@ function openTeam(team){
           <div class="poster-country">${team}</div>
           <div class="poster-year">'26</div>
         </div>
-        <div class="poster-group-tag">${FLAGS[team]||''} Group ${g.id}</div>
+        <div class="poster-group-tag"><span class="pgt-fl">${flag(team)}</span> Group ${g.id}</div>
         ${journey}
         <div class="results-block" style="color:${ink}">
           <div class="squad-section-label" style="color:${ink}">Group Stage</div>
@@ -691,7 +865,7 @@ function renderStats(){
   const scorerRows = top.map(([t,gl],i)=>`
     <div class="sr-row">
       <span class="sr-rank">${i+1}</span>
-      <span style="font-size:17px">${FLAGS[t]||''}</span>
+      <span class="stat-fl">${flag(t)}</span>
       <span class="sr-team">${t}</span>
       <span class="sr-bar" style="width:${gl>0?Math.round((gl/max)*110):0}px"></span>
       <span class="sr-goals">${gl}</span>
@@ -710,20 +884,143 @@ function renderStats(){
     </div>`;
 }
 
+// ---- KNOCKOUT BRACKET (official 2026 Matches 73-104) ----
+const R32_TIES = [
+  {m:73,a:'2A',b:'2B'},{m:74,a:'1E',b:'3:ABCDF'},{m:75,a:'1F',b:'2C'},{m:76,a:'1C',b:'2F'},
+  {m:77,a:'1I',b:'3:CDFGH'},{m:78,a:'2E',b:'2I'},{m:79,a:'1A',b:'3:CEFHI'},{m:80,a:'1L',b:'3:EHIJK'},
+  {m:81,a:'1D',b:'3:BEFIJ'},{m:82,a:'1G',b:'3:AEHIJ'},{m:83,a:'2K',b:'2L'},{m:84,a:'1H',b:'2J'},
+  {m:85,a:'1B',b:'3:EFGIJ'},{m:86,a:'1J',b:'2H'},{m:87,a:'1K',b:'3:DEIJL'},{m:88,a:'2D',b:'2G'}
+];
+const R16_TIES=[{m:89,a:74,b:77},{m:90,a:73,b:75},{m:91,a:76,b:78},{m:92,a:79,b:80},{m:93,a:83,b:84},{m:94,a:81,b:82},{m:95,a:86,b:88},{m:96,a:85,b:87}];
+const QF_TIES=[{m:97,a:89,b:90},{m:98,a:93,b:94},{m:99,a:91,b:92},{m:100,a:95,b:96}];
+const SF_TIES=[{m:101,a:97,b:98},{m:102,a:99,b:100}];
+const FINAL_TIE={m:104,a:101,b:102};
+
+function thirdRank(){ // ranked list of third-placed teams (group complete only), best first
+  const arr=[];
+  GROUPS.forEach(g=>{
+    if(!g.matches.every(m=>{const s=getScore(m.id);return s.h!=null&&s.a!=null;})) return;
+    const s=standings(g); arr.push({...s[2], group:g.id});
+  });
+  return arr.sort((a,b)=> b.pts-a.pts || b.gd-a.gd || b.gf-a.gf || a.team.localeCompare(b.team));
+}
+function assignThirds(qualGroups){
+  const slots=R32_TIES.filter(t=>typeof t.b==='string'&&t.b.startsWith('3:')).map(t=>({m:t.m,set:t.b.slice(2).split('')}));
+  const used={},assign={};
+  function bt(i){ if(i===qualGroups.length)return true; const g=qualGroups[i];
+    for(const s of slots){ if(used[s.m])continue; if(s.set.includes(g)){used[s.m]=true;assign[s.m]=g; if(bt(i+1))return true; used[s.m]=false;delete assign[s.m];}}
+    return false; }
+  return bt(0)?assign:null;
+}
+// Resolve the whole bracket into {matchNo:{a,b,winner}} where teams may be null (TBD)
+function resolveBracket(){
+  const winner={},runner={};
+  GROUPS.forEach(g=>{
+    if(!g.matches.every(m=>{const s=getScore(m.id);return s.h!=null&&s.a!=null;})) return;
+    const s=standings(g); winner[g.id]=s[0].team; runner[g.id]=s[1].team;
+  });
+  const thirds=thirdRank();
+  const allGroupsDone = GROUPS.every(g=>g.matches.every(m=>{const s=getScore(m.id);return s.h!=null&&s.a!=null;}));
+  const top8 = allGroupsDone ? thirds.slice(0,8) : [];
+  const thirdAssign = allGroupsDone ? assignThirds(top8.map(t=>t.group)) : null;
+  const thirdTeam={}; top8.forEach(t=>thirdTeam[t.group]=t.team);
+  const slotTeam=code=>{ if(code[0]==='1')return winner[code[1]]||null; if(code[0]==='2')return runner[code[1]]||null; return null; };
+  const fx={};
+  function koScore(m){ return state['M'+m]||{h:null,a:null}; }
+  function tieWinner(m,a,b){ const s=koScore(m); if(!a||!b)return null; if(s.h==null||s.a==null)return null;
+    if(s.h>s.a)return a; if(s.a>s.h)return b; // draw: use pen if present
+    if(s.ph!=null&&s.pa!=null) return s.ph>s.pa?a:b; return null; }
+  R32_TIES.forEach(t=>{
+    const a=slotTeam(t.a);
+    let b;
+    if(typeof t.b==='string'&&t.b.startsWith('3:')){ const grp=thirdAssign?thirdAssign[t.m]:null; b=grp?thirdTeam[grp]:null; }
+    else b=slotTeam(t.b);
+    fx[t.m]={a,b,winner:tieWinner(t.m,a,b),sa:t.a,sb:t.b};
+  });
+  [...R16_TIES,...QF_TIES,...SF_TIES,FINAL_TIE].forEach(t=>{
+    const a=fx[t.a]?fx[t.a].winner:null, b=fx[t.b]?fx[t.b].winner:null;
+    fx[t.m]={a,b,winner:tieWinner(t.m,a,b),sa:'W'+t.a,sb:'W'+t.b};
+  });
+  return fx;
+}
+
 function renderKnockouts(){
-  const rounds=[['Round of 32',16],['Round of 16',8],['Quarter-finals',4],['Semi-finals',2],['Final',1]];
+  const fx=resolveBracket();
+  const rounds=[['Round of 32',R32_TIES],['Round of 16',R16_TIES],['Quarter-finals',QF_TIES],['Semi-finals',SF_TIES],['Final',[FINAL_TIE]]];
   const headers = rounds.map(r=>`<div class="ko-rh">${r[0]}</div>`).join('');
+  function slotLabel(code){ // human label for an unresolved slot
+    if(typeof code!=='string') return 'TBD';
+    if(code.startsWith('3:')) return '3rd '+code.slice(2).split('').join('/');
+    if(code[0]==='1') return 'Winner '+code[1];
+    if(code[0]==='2') return 'Runner-up '+code[1];
+    return 'TBD';
+  }
+  function teamCell(team, slot, isWin){
+    if(team){
+      return `<div class="ko-team${isWin?' ko-win':''}"><span class="ko-fl">${flag(team)}</span><span class="ko-tn">${team}</span></div>`;
+    }
+    return `<div class="ko-team ko-tbd">${slotLabel(slot)}</div>`;
+  }
   const cols = rounds.map(r=>{
-    let m='';
-    for(let i=0;i<r[1];i++) m+=`<div class="ko-match"><div class="ko-team">TBD</div><div class="ko-team">TBD</div></div>`;
-    return `<div class="ko-col">${m}</div>`;
+    let html='';
+    r[1].forEach(t=>{
+      const f=fx[t.m]||{};
+      const editable = f.a && f.b;
+      const sc = state['M'+t.m]||{h:null,a:null};
+      const scoreBox = editable
+        ? `<div class="ko-scores"><input class="ko-in" inputmode="numeric" maxlength="2" data-ko="${t.m}" data-s="h" value="${sc.h??''}"><span class="ko-dash">–</span><input class="ko-in" inputmode="numeric" maxlength="2" data-ko="${t.m}" data-s="a" value="${sc.a??''}"></div>`
+        : '';
+      html+=`<div class="ko-match" data-mno="${t.m}">
+        <div class="ko-mno">${t.m}</div>
+        ${teamCell(f.a,f.sa,f.winner&&f.winner===f.a)}
+        ${scoreBox}
+        ${teamCell(f.b,f.sb,f.winner&&f.winner===f.b)}
+      </div>`;
+    });
+    return `<div class="ko-col">${html}</div>`;
   }).join('');
+  // third-place qualifiers summary
+  const allDone=GROUPS.every(g=>g.matches.every(m=>{const s=getScore(m.id);return s.h!=null&&s.a!=null;}));
+  const thirds=thirdRank();
+  let thirdNote='';
+  if(thirds.length){
+    const top8=thirds.slice(0,8), rest=thirds.slice(8);
+    thirdNote=`<div class="ko-thirds"><div class="ko-thirds-h">Third-placed ranking ${allDone?'(8 qualify)':'(in progress)'}</div>`
+      +`<div class="ko-thirds-row">`+thirds.map((t,i)=>`<span class="ko-third ${i<8?'q':'nq'}">${i+1}. ${flag(t.team)} ${t.team} <b>${t.pts}</b></span>`).join('')+`</div></div>`;
+  }
   document.getElementById('view-knockouts').innerHTML = `
-    <p class="ko-note">The bracket forms once group results are in. Top two of each group plus the eight best third-placed teams advance to the Round of 32.</p>
+    <p class="ko-note">Top two of each group plus the eight best third-placed teams reach the Round of 32. Pairings resolve automatically; enter knockout scores to advance teams. Draws need a penalty result, tap a team after a level score.</p>
+    ${thirdNote}
     <div class="ko-scroll">
       <div class="ko-grid">${headers}</div>
       <div class="ko-grid">${cols}</div>
     </div>`;
+  // wire KO score inputs
+  document.querySelectorAll('.ko-in').forEach(inp=>{
+    inp.addEventListener('input', e=>{
+      const mno=e.target.dataset.ko, side=e.target.dataset.s;
+      const v=e.target.value===''?null:Math.max(0,Math.min(30,parseInt(e.target.value,10)||0));
+      const key='M'+mno; const cur=state[key]||{h:null,a:null}; cur[side]=v; state[key]=cur; save(); touch();
+      renderKnockouts();
+    });
+  });
+  // tap a team to pick penalty winner when scores level
+  document.querySelectorAll('.ko-match').forEach(mm=>{
+    const mno=mm.dataset.mno; const f=fx[mno];
+    mm.querySelectorAll('.ko-team').forEach((cell,idx)=>{
+      if(!f||!f.a||!f.b) return;
+      const sc=state['M'+mno]||{h:null,a:null};
+      if(sc.h!=null&&sc.a!=null&&sc.h===sc.a){
+        cell.classList.add('ko-pick');
+        cell.addEventListener('click',()=>{
+          const key='M'+mno; const cur=state[key]; const team=idx===0?f.a:f.b;
+          // store pen winner as ph/pa flags
+          if(team===f.a){cur.ph=1;cur.pa=0;}else{cur.ph=0;cur.pa=1;}
+          state[key]=cur; save(); touch(); renderKnockouts();
+        });
+      }
+    });
+  });
 }
 
 // ---- NEXT MATCHES (header strip) ----
@@ -872,7 +1169,21 @@ function startBall(){
 }
 renderGroups();
 renderNext();
+renderLastUpdated();
 startBall();
+
+// back-to-top button
+(function(){
+  const btn=document.getElementById('toTop');
+  if(!btn) return;
+  const onScroll=()=>{ btn.classList.toggle('show', window.scrollY>320); };
+  window.addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
+  btn.addEventListener('click', ()=>{
+    const reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    window.scrollTo({ top:0, behavior: reduce?'auto':'smooth' });
+  });
+})();
 
 </script>
 </body>
