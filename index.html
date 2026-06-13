@@ -187,6 +187,7 @@
   .fx-row { display: flex; align-items: center; padding: 7px 0; border-bottom: 1px solid var(--paper-edge); gap: 8px; }
   .fx-row:last-child { border-bottom: none; }
   .fx-date { font-family: var(--narrow); font-size: 11px; color: var(--ink-faint); width: 52px; flex-shrink: 0; letter-spacing: 0.04em; }
+  .fx-time { display: block; font-weight: 700; color: var(--ink-soft); font-size: 11px; letter-spacing: 0.02em; margin-top: 1px; }
   .fx-mid { flex: 1; display: flex; align-items: center; gap: 8px; }
   .fx-team { font-size: 13px; font-weight: 600; flex: 1; }
   .fx-team.h { text-align: right; }
@@ -341,53 +342,53 @@ const FLAGS = {
 
 const GROUPS = [
   { id:'A', teams:['Mexico','South Africa','South Korea','Czechia'], matches:[
-    {id:'A1',home:'Mexico',away:'South Africa',date:'Jun 11'},{id:'A2',home:'South Korea',away:'Czechia',date:'Jun 11'},
-    {id:'A3',home:'Czechia',away:'South Africa',date:'Jun 18'},{id:'A4',home:'Mexico',away:'South Korea',date:'Jun 18'},
-    {id:'A5',home:'South Africa',away:'South Korea',date:'Jun 24'},{id:'A6',home:'Czechia',away:'Mexico',date:'Jun 24'} ]},
+    {id:'A1',home:'Mexico',away:'South Africa',date:'Jun 11',time:'8pm'},{id:'A2',home:'South Korea',away:'Czechia',date:'Jun 12',time:'3am'},
+    {id:'A3',home:'Czechia',away:'South Africa',date:'Jun 18',time:'5pm'},{id:'A4',home:'Mexico',away:'South Korea',date:'Jun 19',time:'2am'},
+    {id:'A5',home:'South Africa',away:'South Korea',date:'Jun 25',time:'2am'},{id:'A6',home:'Czechia',away:'Mexico',date:'Jun 25',time:'2am'} ]},
   { id:'B', teams:['Canada','Bosnia and Herzegovina','Qatar','Switzerland'], matches:[
-    {id:'B1',home:'Canada',away:'Bosnia and Herzegovina',date:'Jun 12'},{id:'B2',home:'Qatar',away:'Switzerland',date:'Jun 13'},
-    {id:'B3',home:'Switzerland',away:'Bosnia and Herzegovina',date:'Jun 18'},{id:'B4',home:'Canada',away:'Qatar',date:'Jun 18'},
-    {id:'B5',home:'Switzerland',away:'Canada',date:'Jun 24'},{id:'B6',home:'Bosnia and Herzegovina',away:'Qatar',date:'Jun 24'} ]},
+    {id:'B1',home:'Canada',away:'Bosnia and Herzegovina',date:'Jun 12',time:'8pm'},{id:'B2',home:'Qatar',away:'Switzerland',date:'Jun 13',time:'8pm'},
+    {id:'B3',home:'Switzerland',away:'Bosnia and Herzegovina',date:'Jun 18',time:'8pm'},{id:'B4',home:'Canada',away:'Qatar',date:'Jun 18',time:'11pm'},
+    {id:'B5',home:'Switzerland',away:'Canada',date:'Jun 24',time:'8pm'},{id:'B6',home:'Bosnia and Herzegovina',away:'Qatar',date:'Jun 24',time:'8pm'} ]},
   { id:'C', teams:['Brazil','Morocco','Haiti','Scotland'], matches:[
-    {id:'C1',home:'Brazil',away:'Morocco',date:'Jun 13'},{id:'C2',home:'Haiti',away:'Scotland',date:'Jun 13'},
-    {id:'C3',home:'Scotland',away:'Morocco',date:'Jun 19'},{id:'C4',home:'Brazil',away:'Haiti',date:'Jun 19'},
-    {id:'C5',home:'Morocco',away:'Haiti',date:'Jun 24'},{id:'C6',home:'Scotland',away:'Brazil',date:'Jun 24'} ]},
+    {id:'C1',home:'Brazil',away:'Morocco',date:'Jun 13',time:'11pm'},{id:'C2',home:'Haiti',away:'Scotland',date:'Jun 14',time:'2am'},
+    {id:'C3',home:'Scotland',away:'Morocco',date:'Jun 19',time:'11pm'},{id:'C4',home:'Brazil',away:'Haiti',date:'Jun 20',time:'1.30am'},
+    {id:'C5',home:'Morocco',away:'Haiti',date:'Jun 24',time:'11pm'},{id:'C6',home:'Scotland',away:'Brazil',date:'Jun 24',time:'11pm'} ]},
   { id:'D', teams:['United States','Paraguay','Australia','Turkiye'], matches:[
-    {id:'D1',home:'United States',away:'Paraguay',date:'Jun 12'},{id:'D2',home:'Australia',away:'Turkiye',date:'Jun 14'},
-    {id:'D3',home:'United States',away:'Australia',date:'Jun 19'},{id:'D4',home:'Turkiye',away:'Paraguay',date:'Jun 19'},
-    {id:'D5',home:'Turkiye',away:'United States',date:'Jun 25'},{id:'D6',home:'Paraguay',away:'Australia',date:'Jun 25'} ]},
+    {id:'D1',home:'United States',away:'Paraguay',date:'Jun 13',time:'2am'},{id:'D2',home:'Australia',away:'Turkiye',date:'Jun 14',time:'5am'},
+    {id:'D3',home:'United States',away:'Australia',date:'Jun 19',time:'8pm'},{id:'D4',home:'Turkiye',away:'Paraguay',date:'Jun 20',time:'4am'},
+    {id:'D5',home:'Turkiye',away:'United States',date:'Jun 26',time:'3am'},{id:'D6',home:'Paraguay',away:'Australia',date:'Jun 26',time:'3am'} ]},
   { id:'E', teams:['Germany','Curacao','Ivory Coast','Ecuador'], matches:[
-    {id:'E1',home:'Germany',away:'Curacao',date:'Jun 14'},{id:'E2',home:'Ivory Coast',away:'Ecuador',date:'Jun 14'},
-    {id:'E3',home:'Germany',away:'Ivory Coast',date:'Jun 20'},{id:'E4',home:'Ecuador',away:'Curacao',date:'Jun 20'},
-    {id:'E5',home:'Curacao',away:'Ivory Coast',date:'Jun 25'},{id:'E6',home:'Ecuador',away:'Germany',date:'Jun 25'} ]},
+    {id:'E1',home:'Germany',away:'Curacao',date:'Jun 14',time:'6pm'},{id:'E2',home:'Ivory Coast',away:'Ecuador',date:'Jun 15',time:'12am'},
+    {id:'E3',home:'Germany',away:'Ivory Coast',date:'Jun 20',time:'9pm'},{id:'E4',home:'Ecuador',away:'Curacao',date:'Jun 21',time:'1am'},
+    {id:'E5',home:'Curacao',away:'Ivory Coast',date:'Jun 25',time:'9pm'},{id:'E6',home:'Ecuador',away:'Germany',date:'Jun 25',time:'9pm'} ]},
   { id:'F', teams:['Netherlands','Japan','Sweden','Tunisia'], matches:[
-    {id:'F1',home:'Netherlands',away:'Japan',date:'Jun 14'},{id:'F2',home:'Sweden',away:'Tunisia',date:'Jun 14'},
-    {id:'F3',home:'Netherlands',away:'Sweden',date:'Jun 20'},{id:'F4',home:'Tunisia',away:'Japan',date:'Jun 21'},
-    {id:'F5',home:'Tunisia',away:'Netherlands',date:'Jun 25'},{id:'F6',home:'Japan',away:'Sweden',date:'Jun 25'} ]},
+    {id:'F1',home:'Netherlands',away:'Japan',date:'Jun 14',time:'9pm'},{id:'F2',home:'Sweden',away:'Tunisia',date:'Jun 15',time:'3am'},
+    {id:'F3',home:'Netherlands',away:'Sweden',date:'Jun 20',time:'6pm'},{id:'F4',home:'Tunisia',away:'Japan',date:'Jun 21',time:'5am'},
+    {id:'F5',home:'Tunisia',away:'Netherlands',date:'Jun 26',time:'12am'},{id:'F6',home:'Japan',away:'Sweden',date:'Jun 26',time:'12am'} ]},
   { id:'G', teams:['Belgium','Egypt','Iran','New Zealand'], matches:[
-    {id:'G1',home:'Belgium',away:'Egypt',date:'Jun 15'},{id:'G2',home:'Iran',away:'New Zealand',date:'Jun 15'},
-    {id:'G3',home:'Belgium',away:'Iran',date:'Jun 21'},{id:'G4',home:'New Zealand',away:'Egypt',date:'Jun 21'},
-    {id:'G5',home:'New Zealand',away:'Belgium',date:'Jun 26'},{id:'G6',home:'Egypt',away:'Iran',date:'Jun 26'} ]},
+    {id:'G1',home:'Belgium',away:'Egypt',date:'Jun 15',time:'8pm'},{id:'G2',home:'Iran',away:'New Zealand',date:'Jun 16',time:'2am'},
+    {id:'G3',home:'Belgium',away:'Iran',date:'Jun 21',time:'8pm'},{id:'G4',home:'New Zealand',away:'Egypt',date:'Jun 22',time:'2am'},
+    {id:'G5',home:'New Zealand',away:'Belgium',date:'Jun 27',time:'4am'},{id:'G6',home:'Egypt',away:'Iran',date:'Jun 27',time:'4am'} ]},
   { id:'H', teams:['Spain','Cabo Verde','Saudi Arabia','Uruguay'], matches:[
-    {id:'H1',home:'Spain',away:'Cabo Verde',date:'Jun 15'},{id:'H2',home:'Saudi Arabia',away:'Uruguay',date:'Jun 15'},
-    {id:'H3',home:'Spain',away:'Saudi Arabia',date:'Jun 21'},{id:'H4',home:'Uruguay',away:'Cabo Verde',date:'Jun 21'},
-    {id:'H5',home:'Cabo Verde',away:'Saudi Arabia',date:'Jun 26'},{id:'H6',home:'Uruguay',away:'Spain',date:'Jun 26'} ]},
+    {id:'H1',home:'Spain',away:'Cabo Verde',date:'Jun 15',time:'5pm'},{id:'H2',home:'Saudi Arabia',away:'Uruguay',date:'Jun 15',time:'11pm'},
+    {id:'H3',home:'Spain',away:'Saudi Arabia',date:'Jun 21',time:'5pm'},{id:'H4',home:'Uruguay',away:'Cabo Verde',date:'Jun 21',time:'11pm'},
+    {id:'H5',home:'Cabo Verde',away:'Saudi Arabia',date:'Jun 27',time:'1am'},{id:'H6',home:'Uruguay',away:'Spain',date:'Jun 27',time:'1am'} ]},
   { id:'I', teams:['France','Senegal','Iraq','Norway'], matches:[
-    {id:'I1',home:'France',away:'Senegal',date:'Jun 16'},{id:'I2',home:'Iraq',away:'Norway',date:'Jun 16'},
-    {id:'I3',home:'France',away:'Iraq',date:'Jun 22'},{id:'I4',home:'Norway',away:'Senegal',date:'Jun 22'},
-    {id:'I5',home:'Senegal',away:'Iraq',date:'Jun 26'},{id:'I6',home:'Norway',away:'France',date:'Jun 26'} ]},
+    {id:'I1',home:'France',away:'Senegal',date:'Jun 16',time:'8pm'},{id:'I2',home:'Iraq',away:'Norway',date:'Jun 16',time:'11pm'},
+    {id:'I3',home:'France',away:'Iraq',date:'Jun 22',time:'10pm'},{id:'I4',home:'Norway',away:'Senegal',date:'Jun 23',time:'1am'},
+    {id:'I5',home:'Senegal',away:'Iraq',date:'Jun 26',time:'8pm'},{id:'I6',home:'Norway',away:'France',date:'Jun 26',time:'8pm'} ]},
   { id:'J', teams:['Argentina','Algeria','Austria','Jordan'], matches:[
-    {id:'J1',home:'Argentina',away:'Algeria',date:'Jun 16'},{id:'J2',home:'Austria',away:'Jordan',date:'Jun 16'},
-    {id:'J3',home:'Argentina',away:'Austria',date:'Jun 22'},{id:'J4',home:'Jordan',away:'Algeria',date:'Jun 22'},
-    {id:'J5',home:'Algeria',away:'Austria',date:'Jun 26'},{id:'J6',home:'Jordan',away:'Argentina',date:'Jun 26'} ]},
+    {id:'J1',home:'Argentina',away:'Algeria',date:'Jun 17',time:'2am'},{id:'J2',home:'Austria',away:'Jordan',date:'Jun 17',time:'5am'},
+    {id:'J3',home:'Argentina',away:'Austria',date:'Jun 22',time:'6pm'},{id:'J4',home:'Jordan',away:'Algeria',date:'Jun 23',time:'4am'},
+    {id:'J5',home:'Algeria',away:'Austria',date:'Jun 28',time:'3am'},{id:'J6',home:'Jordan',away:'Argentina',date:'Jun 28',time:'3am'} ]},
   { id:'K', teams:['Portugal','DR Congo','Uzbekistan','Colombia'], matches:[
-    {id:'K1',home:'Portugal',away:'DR Congo',date:'Jun 17'},{id:'K2',home:'Uzbekistan',away:'Colombia',date:'Jun 17'},
-    {id:'K3',home:'Portugal',away:'Uzbekistan',date:'Jun 23'},{id:'K4',home:'Colombia',away:'DR Congo',date:'Jun 23'},
-    {id:'K5',home:'DR Congo',away:'Uzbekistan',date:'Jun 27'},{id:'K6',home:'Colombia',away:'Portugal',date:'Jun 27'} ]},
+    {id:'K1',home:'Portugal',away:'DR Congo',date:'Jun 17',time:'6pm'},{id:'K2',home:'Uzbekistan',away:'Colombia',date:'Jun 18',time:'3am'},
+    {id:'K3',home:'Portugal',away:'Uzbekistan',date:'Jun 23',time:'6pm'},{id:'K4',home:'Colombia',away:'DR Congo',date:'Jun 24',time:'3am'},
+    {id:'K5',home:'DR Congo',away:'Uzbekistan',date:'Jun 28',time:'12.30am'},{id:'K6',home:'Colombia',away:'Portugal',date:'Jun 28',time:'12.30am'} ]},
   { id:'L', teams:['England','Croatia','Ghana','Panama'], matches:[
-    {id:'L1',home:'England',away:'Croatia',date:'Jun 17'},{id:'L2',home:'Ghana',away:'Panama',date:'Jun 17'},
-    {id:'L3',home:'England',away:'Ghana',date:'Jun 23'},{id:'L4',home:'Panama',away:'Croatia',date:'Jun 23'},
-    {id:'L5',home:'Panama',away:'England',date:'Jun 27'},{id:'L6',home:'Croatia',away:'Ghana',date:'Jun 27'} ]}
+    {id:'L1',home:'England',away:'Croatia',date:'Jun 17',time:'9pm'},{id:'L2',home:'Ghana',away:'Panama',date:'Jun 18',time:'12am'},
+    {id:'L3',home:'England',away:'Ghana',date:'Jun 23',time:'9pm'},{id:'L4',home:'Panama',away:'Croatia',date:'Jun 24',time:'12am'},
+    {id:'L5',home:'Panama',away:'England',date:'Jun 27',time:'10pm'},{id:'L6',home:'Croatia',away:'Ghana',date:'Jun 27',time:'10pm'} ]}
 ];
 
 let state = {};
@@ -444,7 +445,7 @@ function renderGroups(){
     const fixtures = g.matches.map(m=>{
       const sc=getScore(m.id); const played=sc.h!==null&&sc.a!==null;
       return `<div class="fx-row">
-        <div class="fx-date">${m.date}</div>
+        <div class="fx-date">${m.date}${m.time?`<span class="fx-time">${m.time}</span>`:''}</div>
         <div class="fx-mid">
           <span class="fx-team h">${FLAGS[m.home]||''} ${m.home}</span>
           <div class="fx-scores">
@@ -661,6 +662,13 @@ const CODES = {
 };
 const MON = {Jan:0,Feb:1,Mar:2,Apr:3,May:4,Jun:5,Jul:6,Aug:7,Sep:8,Oct:9,Nov:10,Dec:11};
 function matchDateVal(d){ const [mo,day]=d.split(' '); return MON[mo]*100 + parseInt(day,10); }
+function timeVal(t){ // "8pm","2am","12am","1.30am","12.30am" -> minutes since midnight
+  if(!t) return 0;
+  const m=t.match(/^(\d+)(?:\.(\d+))?\s*(am|pm)$/i); if(!m) return 0;
+  let h=parseInt(m[1],10); const min=m[2]?parseInt(m[2],10):0; const ap=m[3].toLowerCase();
+  if(ap==='pm'&&h!==12) h+=12; if(ap==='am'&&h===12) h=0;
+  return h*60+min;
+}
 function kitDot(team){ const k=(typeof KITS!=='undefined'&&KITS[team])||{p:'#ccc'}; return k.p; }
 function dateLabel(d){ // "Jun 11" -> "Thu · Jun 11"
   const [mo,day]=d.split(' ');
@@ -681,7 +689,7 @@ function renderNext(){
     return;
   }
   const minDv=Math.min(...upcoming.map(u=>u.dv));
-  const day=upcoming.filter(u=>u.dv===minDv).sort((a,b)=>a.grp.localeCompare(b.grp));
+  const day=upcoming.filter(u=>u.dv===minDv).sort((a,b)=> timeVal(a.time)-timeVal(b.time) || a.grp.localeCompare(b.grp));
   const dateStr=dateLabel(day[0].date);
   const cards=day.map(m=>`
     <div class="next-fx" data-grp="${m.grp}" role="button" tabindex="0">
@@ -694,7 +702,7 @@ function renderNext(){
         <span class="nf-abbr">${CODES[m.away]||m.away.slice(0,3).toUpperCase()}</span>
         <span class="nf-dot" style="background:${kitDot(m.away)}"></span>
       </span>
-      <span class="nf-grp">${m.grp}</span>
+      <span class="nf-grp">${m.grp}${m.time?` · ${m.time}`:''}</span>
     </div>`).join('');
   el.innerHTML=`
     <div class="next-head">
