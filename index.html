@@ -127,6 +127,22 @@
   .view.active { display: block; }
   .intro-note { font-family: var(--serif); font-style: italic; font-size: 14px; color: var(--ink-soft); text-align: center; margin-bottom: 24px; padding: 0 12px; }
 
+  /* NEXT MATCHES STRIP (header) */
+  .next-strip { border-top: 2px solid var(--ink); background: var(--paper); padding: 10px 14px 12px; }
+  .next-head { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 8px; }
+  .next-label { font-family: var(--narrow); font-weight: 700; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink-soft); }
+  .next-date { font-family: var(--narrow); font-weight: 700; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink); }
+  .next-row { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 2px; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+  .next-row::-webkit-scrollbar { display: none; }
+  .next-fx { flex: 0 0 auto; display: flex; align-items: center; gap: 7px; border: 1.5px solid var(--ink); padding: 6px 9px; background: var(--paper); cursor: pointer; }
+  .next-fx:active { transform: translate(1px,1px); }
+  .nf-side { display: flex; align-items: center; gap: 5px; }
+  .nf-dot { width: 11px; height: 11px; border: 1px solid var(--ink); border-radius: 50%; flex-shrink: 0; }
+  .nf-abbr { font-family: var(--narrow); font-weight: 700; font-size: 12px; letter-spacing: 0.04em; color: var(--ink); }
+  .nf-grp { font-family: var(--narrow); font-size: 10px; color: var(--ink-faint); letter-spacing: 0.06em; }
+  .nf-v { font-family: var(--serif); font-style: italic; font-size: 11px; color: var(--ink-faint); }
+  .next-empty { font-family: var(--serif); font-style: italic; font-size: 13px; color: var(--ink-soft); }
+
   /* GROUP POSTER CARD */
   .group-card { background: var(--paper); border: 2px solid var(--ink); margin-bottom: 26px; box-shadow: 5px 5px 0 rgba(26,26,23,0.12); }
   .gc-header { border-bottom: 2px solid var(--ink); }
@@ -281,6 +297,7 @@
       </g>
     </svg>
   </div>
+  <div class="next-strip" id="nextStrip"></div>
 </div>
 
 <nav class="nav">
@@ -442,7 +459,7 @@ function renderGroups(){
       </div>`;
     }).join('');
 
-    return `<div class="group-card">
+    return `<div class="group-card" id="group-${g.id}">
       <div class="gc-header">
         <div class="gc-top-rule">
           <div class="gc-emblem">⚽</div>
@@ -479,7 +496,8 @@ function onScore(input){
   const id=input.dataset.m, side=input.dataset.s;
   const val=input.value===''?null:Math.max(0,Math.min(30,parseInt(input.value,10)||0));
   const sc=getScore(id); sc[side]=val; state[id]=sc; save();
-  if(sc.h!==null&&sc.a!==null){ renderGroups(); if(currentView==='stats')renderStats(); }
+  if(sc.h!==null&&sc.a!==null){ renderGroups(); renderNext(); if(currentView==='stats')renderStats(); }
+  else { renderNext(); }
 }
 
 function openTeam(team){
@@ -629,6 +647,71 @@ function renderKnockouts(){
     </div>`;
 }
 
+// ---- NEXT MATCHES (header strip) ----
+const CODES = {
+  'Mexico':'MEX','South Africa':'RSA','South Korea':'KOR','Czechia':'CZE','Canada':'CAN',
+  'Bosnia and Herzegovina':'BIH','Qatar':'QAT','Switzerland':'SUI','Brazil':'BRA','Morocco':'MAR',
+  'Haiti':'HAI','Scotland':'SCO','United States':'USA','Paraguay':'PAR','Australia':'AUS',
+  'Turkiye':'TUR','Germany':'GER','Curacao':'CUW','Ivory Coast':'CIV','Ecuador':'ECU',
+  'Netherlands':'NED','Japan':'JPN','Sweden':'SWE','Tunisia':'TUN','Belgium':'BEL','Egypt':'EGY',
+  'Iran':'IRN','New Zealand':'NZL','Spain':'ESP','Cabo Verde':'CPV','Saudi Arabia':'KSA',
+  'Uruguay':'URU','France':'FRA','Senegal':'SEN','Iraq':'IRQ','Norway':'NOR','Argentina':'ARG',
+  'Algeria':'ALG','Austria':'AUT','Jordan':'JOR','Portugal':'POR','DR Congo':'COD','Uzbekistan':'UZB',
+  'Colombia':'COL','England':'ENG','Croatia':'CRO','Ghana':'GHA','Panama':'PAN'
+};
+const MON = {Jan:0,Feb:1,Mar:2,Apr:3,May:4,Jun:5,Jul:6,Aug:7,Sep:8,Oct:9,Nov:10,Dec:11};
+function matchDateVal(d){ const [mo,day]=d.split(' '); return MON[mo]*100 + parseInt(day,10); }
+function kitDot(team){ const k=(typeof KITS!=='undefined'&&KITS[team])||{p:'#ccc'}; return k.p; }
+function dateLabel(d){ // "Jun 11" -> "Thu · Jun 11"
+  const [mo,day]=d.split(' ');
+  const wd=new Date(2026, MON[mo], parseInt(day,10)).toLocaleDateString('en-GB',{weekday:'short'});
+  return wd+' · '+d;
+}
+function renderNext(){
+  const el=document.getElementById('nextStrip'); if(!el) return;
+  // collect all unplayed matches with their group + date value
+  const upcoming=[];
+  GROUPS.forEach(g=>g.matches.forEach(m=>{
+    const sc=getScore(m.id);
+    if(sc.h===null||sc.a===null) upcoming.push({...m, grp:g.id, dv:matchDateVal(m.date)});
+  }));
+  if(!upcoming.length){
+    el.innerHTML=`<div class="next-head"><span class="next-label">Next Matches</span></div>
+      <div class="next-empty">Group stage complete — all results entered.</div>`;
+    return;
+  }
+  const minDv=Math.min(...upcoming.map(u=>u.dv));
+  const day=upcoming.filter(u=>u.dv===minDv).sort((a,b)=>a.grp.localeCompare(b.grp));
+  const dateStr=dateLabel(day[0].date);
+  const cards=day.map(m=>`
+    <div class="next-fx" data-grp="${m.grp}" role="button" tabindex="0">
+      <span class="nf-side">
+        <span class="nf-dot" style="background:${kitDot(m.home)}"></span>
+        <span class="nf-abbr">${CODES[m.home]||m.home.slice(0,3).toUpperCase()}</span>
+      </span>
+      <span class="nf-v">v</span>
+      <span class="nf-side">
+        <span class="nf-abbr">${CODES[m.away]||m.away.slice(0,3).toUpperCase()}</span>
+        <span class="nf-dot" style="background:${kitDot(m.away)}"></span>
+      </span>
+      <span class="nf-grp">${m.grp}</span>
+    </div>`).join('');
+  el.innerHTML=`
+    <div class="next-head">
+      <span class="next-label">Next Matches</span>
+      <span class="next-date">${dateStr}</span>
+    </div>
+    <div class="next-row">${cards}</div>`;
+  // tapping a fixture jumps to its group card
+  el.querySelectorAll('.next-fx').forEach(fx=>{
+    fx.onclick=()=>{
+      if(currentView!=='groups'){ document.querySelector('.nav-tab[data-view="groups"]').click(); }
+      const card=document.getElementById('group-'+fx.dataset.grp);
+      if(card) card.scrollIntoView({behavior:'smooth',block:'start'});
+    };
+  });
+}
+
 let currentView='groups';
 document.querySelectorAll('.nav-tab').forEach(tab=>{
   tab.onclick=()=>{
@@ -649,6 +732,7 @@ document.getElementById('installBtn').onclick=async()=>{ if(!deferred)return; de
 if('serviceWorker' in navigator){ window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{})); }
 
 renderGroups();
+renderNext();
 </script>
 </body>
 </html>
