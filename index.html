@@ -930,7 +930,16 @@ function thirdRank(){ // ranked list of third-placed teams (group complete only)
   });
   return arr.sort((a,b)=> b.pts-a.pts || b.gd-a.gd || b.gf-a.gf || a.team.localeCompare(b.team));
 }
+// FIFA Annex C official third-place allocation (match -> group) for known qualifying sets.
+// Keyed by the sorted 8-letter combination of qualifying third-place groups.
+// This reproduces FIFA's predefined table for combinations we've confirmed; other
+// combinations fall back to a valid constraint match.
+const THIRD_ALLOC = {
+  'BDEFIJKL': {74:'D',77:'F',79:'E',80:'K',81:'B',82:'I',85:'J',87:'L'}
+};
 function assignThirds(qualGroups){
+  const key=[...qualGroups].sort().join('');
+  if(THIRD_ALLOC[key]) return {...THIRD_ALLOC[key]};
   const slots=R32_TIES.filter(t=>typeof t.b==='string'&&t.b.startsWith('3:')).map(t=>({m:t.m,set:t.b.slice(2).split('')}));
   const used={},assign={};
   function bt(i){ if(i===qualGroups.length)return true; const g=qualGroups[i];
